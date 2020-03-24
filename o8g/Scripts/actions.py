@@ -956,7 +956,8 @@ def playerSetup(group=table, x=0, y=0, doPlayer=True, doEncounter=False):
             miniX = cardX(investigatorCard) + investigatorCard.width + InvestigatorSpacing
             miniCard.moveToTable(miniX, cardY(investigatorCard))
             miniWidth = miniCard.width
-            notify("{} places his Investigator on the table".format(me))
+            me.investigator = get_investigator(investigatorCard.name)
+            notify("{} places his Investigator {} on the table".format(me, me.investigator.name))
         
         # Move any Permanents found to the table
         permX = miniX + miniWidth + InvestigatorSpacing
@@ -987,7 +988,8 @@ def playerSetup(group=table, x=0, y=0, doPlayer=True, doEncounter=False):
 
 def drawOpeningHand():
     me.deck.shuffle()
-    drawMany(me.deck, shared.OpeningHandSize)
+    openingHandSize = getattr(me.investigator, "openingHandSize", shared.OpeningHandSize)
+    drawMany(me.deck, openingHandSize)
     removeWeaknessCards()
 
 def removeWeaknessCards():
